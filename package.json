@@ -1,0 +1,17 @@
+{
+  "name": "valorant-api-side-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.1",
+    "node-fetch": "^3.3.2",
+    "require": "^0.4.4"
+  }
+}

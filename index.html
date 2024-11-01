@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorant Account Checker</title>
+</head>
+<body>
+    <h2>Valorant Account Checker</h2>
+    <input type="text" id="nickname" placeholder="Enter your Riot ID (e.g., MagiCc1)">
+    <input type="text" id="tagline" placeholder="Enter your Tagline (e.g., TR1)">
+    <button onclick="fetchAccount()">Get Account Info</button>
+
+    <div id="accountResult" style="margin-top: 20px;"></div>
+
+    <script>
+        async function fetchAccount() {
+            const nickname = document.getElementById('nickname').value;
+            const tagline = document.getElementById('tagline').value;
+            if (!nickname || !tagline) {
+                alert("Please enter both Riot ID and Tagline.");
+                return;
+            }
+
+            try {
+                // Replace 'americas' with the appropriate region if needed (e.g., 'asia' or 'europe')
+                const response = await fetch(`https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${nickname}/${tagline}`, {
+                    headers: {
+                        'X-Riot-Token': 'RGAPI-a0b5ce5d-1a52-4f25-8e6c-8c01dd6d2510'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                displayAccountInfo(data);
+            } catch (error) {
+                document.getElementById('accountResult').innerText = error.message;
+            }
+        }
+
+        function displayAccountInfo(data) {
+            const accountDiv = document.getElementById('accountResult');
+            accountDiv.innerHTML = ""; // Clear previous results
+
+            if (data.puuid) {
+                accountDiv.innerHTML = `
+                    <p><strong>PUUID:</strong> ${data.puuid}</p>
+                    <p><strong>Game Name:</strong> ${data.gameName}</p>
+                    <p><strong>Tag Line:</strong> ${data.tagLine}</p>
+                `;
+            } else {
+                accountDiv.innerText = "No account information found for this player.";
+            }
+        }
+    </script>
+</body>
+</html>
